@@ -13,7 +13,7 @@ const AppLayout = () => (
 );
 function App() {
   return (
-    <div className="text-white">
+    <div className="text-white max-w-[2000px] mx-auto">
       <RouterProvider router={router}></RouterProvider>
     </div>
   );

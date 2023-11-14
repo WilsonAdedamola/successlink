@@ -4,8 +4,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
-
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -17,7 +16,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-img{
+img {
   max-width: 100%;
   display: block;
+}
+
+nav a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+nav a:hover::after {
+  content: "";
+  background-color: #ffff03;
+  width: 35px;
+  height: 2px;
+}
+
+nav a.active::after {
+  content: "";
+  background-color: #ffff03;
+  width: 35px;
+  height: 2px;
+}
+
+.bg {
+  background: url("./assets/home-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
