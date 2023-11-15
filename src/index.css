@@ -14,6 +14,7 @@ body {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: black; */
 }
 
 img {
@@ -90,10 +91,60 @@ nav a.active::after {
   border-bottom: 2px solid white;
 }
 
+.packages-input-border{
+  border-bottom: 1px solid #595959;
+}
+
+.packages-border{
+  
+}
+
 
 @media screen and (min-width:1024px) {
   .nav{
     width: calc(100% - 25rem);
   }
   
+}
+
+.before{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.before::before{
+  content: "";
+  background-color: #9908BD;
+  width: 60px;
+  height: 3px;
+}
+
+.canada-bg{
+  background: url(./assets/canada-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.usa-bg{
+  background: url(./assets/usa-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.uk-bg{
+  background: url(./assets/uk-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.australia-bg{
+  background: url(./assets/australia-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
