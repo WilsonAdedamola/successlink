@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;700&display=swap");
 
 * {
   padding: 0;
@@ -43,7 +43,7 @@ nav a.active::after {
 }
 
 .bg {
-  background: url("./assets/home-bg.jpg");
+  background: url("./assets/homepage-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -77,4 +77,23 @@ nav a.active::after {
 
 .wrap{
   text-wrap: wrap;
+}
+
+.contact-bg{
+  background: url(./assets/contact-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.input-border{
+  border-bottom: 2px solid white;
+}
+
+
+@media screen and (min-width:1024px) {
+  .nav{
+    width: calc(100% - 25rem);
+  }
+  
 }

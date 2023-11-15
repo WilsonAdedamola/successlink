@@ -13,7 +13,7 @@ const Home = () => {
       </div>
       <div className="flex flex-col items-center gap-4 justify-between rounded mt-7 bg-white px-5 py-3 md:px-2 md:mt-32 md:flex-row lg:max-w-[80%] mx-auto 2xl:mt-60">
         <div className="flex flex-col items-start w-full">
-          <p className="text-[#898989] mb-1 text-xs">International visa administration</p>
+          <p className="text-[#898989] mb-1 text-xs xl:text-base">International visa administration</p>
           <select className="shadow rounded w-full py-2 text-black text-sm">
             <option value="">Select Countries</option>
             <option value="Canada">Canada</option>
@@ -24,7 +24,7 @@ const Home = () => {
         </div>
 
         <div className="flex flex-col items-start w-full">
-          <p className="text-[#898989] mb-1 text-xs">International student admission</p>
+          <p className="text-[#898989] mb-1 text-xs xl:text-base">International student admission</p>
           <select className="shadow rounded w-full py-2 text-black text-sm">
             <option value="">Select Countries</option>
             <option value="Canada">Canada</option>
@@ -35,7 +35,7 @@ const Home = () => {
         </div>
 
         <div className="flex flex-col items-start w-full">
-          <p className="text-[#898989] mb-1 text-xs">Visiting visa application support</p>
+          <p className="text-[#898989] mb-1 text-xs xl:text-base">Visiting visa application support</p>
           <select className="shadow rounded w-full py-2 text-black text-sm">
             <option value="">Select Countries</option>
             <option value="Canada">Canada</option>
