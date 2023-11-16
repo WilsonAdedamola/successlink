@@ -18,9 +18,9 @@ const Navbar = (props) => {
   }
 
   return (
-    <nav className={props.showPackages ? "flex justify-between items-center py-2 bg-white px-4 sm:py-3 lg:py-3 md:px-9 lg:px-20" : "flex justify-between items-center bg-[#992288] py-2 px-4 sm:py-3 lg:py-3 md:px-9 lg:px-20]"}>
+    <nav className="flex justify-between items-center bg-[#992288] py-2 px-4 sm:py-3 lg:py-3 md:px-9 lg:px-20]">
       <div>
-        <img src={logo} alt="Success Link" className="w-24 sm:w-32 md:w-40" />
+        <img src={logo} alt="Success Link" className="w-24 sm:w-32 md:w-36" />
       </div>
       <div className="flex justify-between items-center gap-3 sm:gap-5 md:gap-16">
         <NavLink to="/" onClick={handleHomeClick} className="text-xs sm:text-sm md:text-base">Home</NavLink>

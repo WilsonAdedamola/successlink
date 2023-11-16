@@ -154,7 +154,7 @@ function IvaForms() {
   return (
     <>
       {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -187,7 +187,7 @@ function IvaForms() {
       </div>
 
       {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -220,7 +220,7 @@ function IvaForms() {
       </div>
 
       {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -253,7 +253,7 @@ function IvaForms() {
       </div>
 
       {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
