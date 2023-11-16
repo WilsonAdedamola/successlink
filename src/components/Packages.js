@@ -15,6 +15,15 @@ const Packages = (props) => {
     }, 2000);
   };
 
+  const [fullName, setFullName] = useState("")
+  const [passportNumber, setPassportNumber] = useState("")
+  const [country, setCountry] = useState("")
+  const [dob, setDob] = useState("")
+
+  const handleFormSubmit = () => {
+
+  }
+
   return (
     <>
       <div className="md:hidden">
@@ -325,7 +334,7 @@ function FitvfhForms() {
       </div>
 
       {/* USA */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -358,7 +367,7 @@ function FitvfhForms() {
       </div>
 
       {/* uk */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -391,7 +400,7 @@ function FitvfhForms() {
       </div>
 
       {/* Australia */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -463,7 +472,7 @@ function IsaForms() {
       </div>
 
       {/* USA */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -496,7 +505,7 @@ function IsaForms() {
       </div>
 
       {/* uk */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -529,7 +538,7 @@ function IsaForms() {
       </div>
 
       {/* Australia */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -601,7 +610,7 @@ function IrhForms() {
       </div>
 
       {/* USA */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -634,7 +643,7 @@ function IrhForms() {
       </div>
 
       {/* uk */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -667,7 +676,7 @@ function IrhForms() {
       </div>
 
       {/* Australia */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -739,7 +748,7 @@ function VvasForms() {
       </div>
 
       {/* USA */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -772,7 +781,7 @@ function VvasForms() {
       </div>
 
       {/* uk */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -805,7 +814,7 @@ function VvasForms() {
       </div>
 
       {/* Australia */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -877,7 +886,7 @@ function FthbForms() {
       </div>
 
       {/* USA */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -910,7 +919,7 @@ function FthbForms() {
       </div>
 
       {/* uk */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
@@ -943,7 +952,7 @@ function FthbForms() {
       </div>
 
       {/* Australia */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
+      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
           className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
