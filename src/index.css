@@ -96,7 +96,8 @@ nav a.active::after {
 }
 
 .packages-border{
-  
+  border-right: 2px solid #9908BD;
+  color: #9908BD;
 }
 
 
@@ -119,6 +120,17 @@ nav a.active::after {
   background-color: #9908BD;
   width: 60px;
   height: 3px;
+}
+
+.loading{
+  @apply border-gray-300 rounded-full border-4 ease-linear h-10 w-10;
+  border-top-color: #3b34a0;
+  animation: spinner 1.2s linear infinite ;
+}
+
+@keyframes spinner{
+  0%{transform: rotate(0deg);}
+  100%{transform: rotate(360deg);}
 }
 
 .canada-bg{

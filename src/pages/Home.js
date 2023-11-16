@@ -64,7 +64,7 @@ const Home = () => {
             </select>
           </div>
 
-          <button onClick={()=>setShowPackages(true)} className="bg-[#992288] text-xs p-2 rounded-3xl w-full md:w-72">
+          <button onClick={()=>setShowPackages(true)} className="bg-[#992288] text-xs p-2 rounded-3xl w-full max-w-[6rem] md:w-72">
             See more
           </button>
         </div>
