@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import Loading from "./Loading";
+import emailjs from '@emailjs/browser';
 
 const Packages = (props) => {
   const [revealPackageForm, setRevealPackageForm] = useState("iva");
   const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState("SEND");
+  const [selectedPackage, setSelectedPackage] = useState("none")
+
+  const form = useRef()
 
   const handlePackagesSelection = (id) => {
     setRevealPackageForm("");
@@ -15,14 +20,57 @@ const Packages = (props) => {
     }, 2000);
   };
 
-  const [fullName, setFullName] = useState("")
-  const [passportNumber, setPassportNumber] = useState("")
-  const [country, setCountry] = useState("")
-  const [dob, setDob] = useState("")
-
-  const handleFormSubmit = () => {
-
+  const handleSetPackage = () => {
+    if(revealPackageForm === "iva"){
+        setSelectedPackage("International visa administration")
+    }else{
+        if(revealPackageForm === "fitvfh"){
+            setSelectedPackage("Family/ individual tourist visa for holiday")
+        }else{
+            if(revealPackageForm === "isa"){
+                setSelectedPackage("International student admission")
+            }else{
+                if(revealPackageForm === "irh"){
+                    setSelectedPackage("International religious holidays")
+                }else{
+                    if(revealPackageForm === "vvas"){
+                        setSelectedPackage("Visiting visa application support")
+                    }else{
+                        if(revealPackageForm === "fthb"){
+                            setSelectedPackage("Flights tickets + Hotel bookings")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // console.log(selectedPackage)
   }
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    handleSetPackage()
+    setTimeout(()=>{
+      emailjs.sendForm('service_mpxcoag', 'template_9zvryjy', e.target, 'DM5vStou4nWaUUr3r')
+        .then((result) => {
+            // console.log(result.text);
+            if(result.text === "OK"){
+              alert("Message sent")
+              setTimeout(()=>{
+                window.location.reload()
+              },1000)
+            }
+        }, (error) => {
+            // console.log(error.text);
+            if(error){
+              alert("Error sending information")
+              setTimeout(()=>{
+                window.location.reload()
+              },1000)
+            }
+        });
+    },2000)
+  };
 
   return (
     <>
@@ -102,12 +150,12 @@ const Packages = (props) => {
           </div>
           <div className="grid grid-cols-1 gap-5 h-full md:w-[22rem] lg:w-[32rem] overflow-y-scroll hide-scrollbar">
             {loading && <Loading />}
-            {revealPackageForm === "iva" && <IvaForms />}
-            {revealPackageForm === "fitvfh" && <FitvfhForms />}
-            {revealPackageForm === "isa" && <IsaForms />}
-            {revealPackageForm === "irh" && <IrhForms />}
-            {revealPackageForm === "vvas" && <VvasForms />}
-            {revealPackageForm === "fthb" && <FthbForms />}
+            {revealPackageForm === "iva" && <IvaForms sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage} />}
+            {revealPackageForm === "fitvfh" && <FitvfhForms  sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {revealPackageForm === "isa" && <IsaForms  sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {revealPackageForm === "irh" && <IrhForms  sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {revealPackageForm === "vvas" && <VvasForms  sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {revealPackageForm === "fthb" && <FthbForms  sendEmail={sendEmail} form={form} sending={sending} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
           </div>
         </div>
       </div>
@@ -120,7 +168,10 @@ export default Packages;
 function MobilePackages(props) {
   const [mobilePackage, setMobilePackage] = useState("iva");
   const [loading, setLoading] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState("none")
 
+  const form = useRef()
+  
   const handlePackagesSelection = (id) => {
     setMobilePackage("");
     setLoading(true);
@@ -128,6 +179,58 @@ function MobilePackages(props) {
       setMobilePackage(id);
       setLoading(false);
     }, 2000);
+  };
+
+
+  const handleSetPackage = () => {
+    if(mobilePackage === "iva"){
+        setSelectedPackage("International visa administration")
+    }else{
+        if(mobilePackage === "fitvfh"){
+            setSelectedPackage("Family/ individual tourist visa for holiday")
+        }else{
+            if(mobilePackage === "isa"){
+                setSelectedPackage("International student admission")
+            }else{
+                if(mobilePackage === "irh"){
+                    setSelectedPackage("International religious holidays")
+                }else{
+                    if(mobilePackage === "vvas"){
+                        setSelectedPackage("Visiting visa application support")
+                    }else{
+                        if(mobilePackage === "fthb"){
+                            setSelectedPackage("Flights tickets + Hotel bookings")
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    handleSetPackage()
+    setTimeout(()=>{
+      emailjs.sendForm('service_mpxcoag', 'template_9zvryjy', e.target, 'DM5vStou4nWaUUr3r')
+        .then((result) => {
+            // console.log(result.text);
+            if(result.text === "OK"){
+              alert("Message sent")
+              setTimeout(()=>{
+                window.location.reload()
+              },1000)
+            }
+        }, (error) => {
+            // console.log(error.text);
+            if(error){
+              alert("Error sending information")
+              setTimeout(()=>{
+                window.location.reload()
+              },1000)
+            }
+        });
+    },2000)
   };
 
   return (
@@ -148,49 +251,75 @@ function MobilePackages(props) {
       </select>
       <div className="flex flex-col items-center gap-2 w-full h-full overflow-y-scroll hide-scrollbar">
       {loading && <Loading />}
-            {mobilePackage === "iva" && <MobileIvaForms />}
-            {mobilePackage === "fitvfh" && <MobileFitvfhForms />}
-            {mobilePackage === "isa" && <MobileIsaForms />}
-            {mobilePackage === "irh" && <MobileIrhForms />}
-            {mobilePackage === "vvas" && <MobileVvasForms />}
-            {mobilePackage === "fthb" && <MobileFthbForms />}
+            {mobilePackage === "iva" && <MobileIvaForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {mobilePackage === "fitvfh" && <MobileFitvfhForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {mobilePackage === "isa" && <MobileIsaForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {mobilePackage === "irh" && <MobileIrhForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {mobilePackage === "vvas" && <MobileVvasForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
+            {mobilePackage === "fthb" && <MobileFthbForms sendEmail={sendEmail} form={form} selectedPackage={selectedPackage} setSelectedPackage={setSelectedPackage}/>}
       </div>
     </div>
   );
 }
 
-function IvaForms() {
+function IvaForms({sendEmail, selectedPackage, sending, form}) {
+
   return (
     <>
       {/* Canada */}
       <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -199,31 +328,56 @@ function IvaForms() {
       <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -232,31 +386,56 @@ function IvaForms() {
       <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -265,858 +444,56 @@ function IvaForms() {
       <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function FitvfhForms() {
-  return (
-    <>
-      {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function IsaForms() {
-  return (
-    <>
-      {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function IrhForms() {
-  return (
-    <>
-      {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function VvasForms() {
-  return (
-    <>
-      {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function FthbForms() {
-  return (
-    <>
-      {/* Canada */}
-      <div className="canada-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Canada</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* USA */}
-      <div className="usa-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* uk */}
-      <div className="uk-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-
-      {/* Australia */}
-      <div className="australia-bg flex items-end px-4 h-[600px] rounded-2xl mt-5 pb-4 w-full">
-        <form
-          action=""
-          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[300px] w-full"
-        >
-          <p className="font-bold text-3xl text-black mb-4">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-3"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-4 text-white text-sm">
-            SEND
-          </button>
-        </form>
-      </div>
-    </>
-  );
-}
-
-function MobileIvaForms() {
-  return (
-    <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
-        <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
-        >
-          <p className="font-bold text-2xl text-black">Canada</p>
-          <input
-            type="text"
+            required
+            name="fullName"
             placeholder="Full name"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
-          </button>
-        </form>
-      </div>
-
-      {/* usa */}
-      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
-        <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
-        >
-          <p className="font-bold text-2xl text-black">USA</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
-          </button>
-        </form>
-      </div>
-
-      {/* UK */}
-      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
-        <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
-        >
-          <p className="font-bold text-2xl text-black">UK</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
-          </button>
-        </form>
-      </div>
-
-      {/* australia */}
-      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
-        <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
-        >
-          <p className="font-bold text-2xl text-black">Australia</p>
-          <input
-            type="text"
-            placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="number"
-            placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="text"
-            placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
-          />
-          <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
-          />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -1124,136 +501,237 @@ function MobileIvaForms() {
   );
 }
 
-function MobileFitvfhForms() {
+function FitvfhForms({sendEmail, selectedPackage, sending, form}) {
   return (
     <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Canada */}
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* usa */}
-      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* USA */}
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">USA</p>
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* UK */}
-      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* uk */}
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">UK</p>
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* australia */}
-      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Australia */}
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Australia</p>
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -1261,136 +739,237 @@ function MobileFitvfhForms() {
   );
 }
 
-function MobileIsaForms() { 
+function IsaForms({sendEmail, selectedPackage, sending, form}) {
   return (
     <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Canada */}
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* usa */}
-      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* USA */}
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">USA</p>
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* UK */}
-      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* uk */}
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">UK</p>
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* australia */}
-      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Australia */}
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Australia</p>
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -1398,136 +977,237 @@ function MobileIsaForms() {
   );
 }
 
-function MobileIrhForms() {
+function IrhForms({sendEmail, selectedPackage, sending, form}) {
   return (
     <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Canada */}
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* usa */}
-      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* USA */}
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">USA</p>
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* UK */}
-      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* uk */}
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">UK</p>
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* australia */}
-      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Australia */}
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Australia</p>
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -1535,136 +1215,237 @@ function MobileIrhForms() {
   );
 }
 
-function MobileVvasForms() {
+function VvasForms({sendEmail, selectedPackage, sending, form}) {
   return (
     <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Canada */}
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* usa */}
-      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* USA */}
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">USA</p>
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* UK */}
-      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* uk */}
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">UK</p>
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
 
-      {/* australia */}
-      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Australia */}
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Australia</p>
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
-          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
           </button>
         </form>
       </div>
@@ -1672,37 +1453,300 @@ function MobileVvasForms() {
   );
 }
 
-function MobileFthbForms() {
+function FthbForms({sendEmail, selectedPackage, sending, form}) {
   return (
     <>
-      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+      {/* Canada */}
+      <div className="canada-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
         <form
           action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
         >
-          <p className="font-bold text-2xl text-black">Canada</p>
+          <p className="font-bold text-3xl text-black mt-2">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
+          </button>
+        </form>
+      </div>
+
+      {/* USA */}
+      <div className="usa-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
+        <form
+          action=""
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
+        >
+          <p className="font-bold text-3xl text-black mt-2">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
+          </button>
+        </form>
+      </div>
+
+      {/* uk */}
+      <div className="uk-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
+        <form
+          action=""
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
+        >
+          <p className="font-bold text-3xl text-black mt-2">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
+          </button>
+        </form>
+      </div>
+
+      {/* Australia */}
+      <div className="australia-bg flex items-end px-4 h-[550px] rounded-2xl mt-5 pb-4 w-full">
+        <form
+          action=""
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start justify-center gap-2 text-[#595959] bg-white rounded-3xl p-3 h-[350px] w-full"
+        >
+          <p className="font-bold text-3xl text-black mt-2">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            placeholder="Date of birth(dd/mm/yyyy)"
+            name="dob"
+            required
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 mt-2 text-white text-sm">
+            {sending}
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileIvaForms({sendEmail, selectedPackage, form}) {
+  return (
+    <>
+    {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
           />
           <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+            SEND
           </button>
         </form>
       </div>
@@ -1710,65 +1754,112 @@ function MobileFthbForms() {
       {/* usa */}
       <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
         <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
         >
           <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
           />
           <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+            SEND
           </button>
         </form>
       </div>
-
       {/* UK */}
       <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
         <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
         >
           <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
           />
           <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+            SEND
           </button>
         </form>
       </div>
@@ -1776,32 +1867,1221 @@ function MobileFthbForms() {
       {/* australia */}
       <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
         <form
-          action=""
-          className="flex flex-col items-start gap-2 bg-white text-[#595959] rounded-3xl p-3 h-max"
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
         >
           <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
           <input
             type="text"
+            required
+            name="fullName"
             placeholder="Full name"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="number"
+            required
+            name="passportNumber"
             placeholder="Passport number"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
             type="text"
+            required
+            name="country"
             placeholder="Country"
-            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-3"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
           />
           <input
-            type="date"
-            placeholder="DOB"
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
             className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
           />
           <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-            For Enquiry
+            SEND
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileFitvfhForms({sendEmail, selectedPackage, form}) {
+  return (
+    <>
+      {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* usa */}
+      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+      {/* UK */}
+      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* australia */}
+      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileIsaForms({sendEmail, selectedPackage, form}) { 
+  return (
+    <>
+      {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* usa */}
+      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+      {/* UK */}
+      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* australia */}
+      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileIrhForms({sendEmail, selectedPackage, form}) {
+  return (
+    <>
+      {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* usa */}
+      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+      {/* UK */}
+      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* australia */}
+      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileVvasForms({sendEmail, selectedPackage, form}) {
+  return (
+    <>
+      {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* usa */}
+      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+      {/* UK */}
+      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* australia */}
+      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+    </>
+  );
+}
+
+function MobileFthbForms({sendEmail, selectedPackage, form}) {
+  return (
+    <>
+      {/* canada */}
+      <div className="canada-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Canada</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Canada" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Canada">Canada</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* usa */}
+      <div className="usa-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">USA</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="USA" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="USA">USA</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+      {/* UK */}
+      <div className="uk-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">UK</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="UK" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="UK">UK</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
+          </button>
+        </form>
+      </div>
+
+      {/* australia */}
+      <div className="australia-bg flex items-center justify-center px-4 w-full sm:w-[400px] rounded-2xl mt-5 py-4">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col items-start gap-2 text-xs bg-white text-[#595959] w-full rounded-3xl p-3 h-max"
+        >
+          <p className="font-bold text-2xl text-black">Australia</p>
+          <div className="flex items-center invisible">
+          <select name="selectedPackage" className="">
+            <option value={selectedPackage}>{selectedPackage}</option>
+          </select>
+          <select value="Australia" onChange={(e)=>e.target.value} name="ToCountry" className="">
+            <option value="Australia">Australia</option>
+          </select>
+          </div>
+          <input
+            type="text"
+            required
+            name="fullName"
+            placeholder="Full name"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="number"
+            required
+            name="passportNumber"
+            placeholder="Passport number"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="country"
+            placeholder="Country"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="email"
+            required
+            name="email"
+            placeholder="Email"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 placeholder:text-xs pb-1"
+          />
+          <input
+            type="text"
+            required
+            name="dob"
+            placeholder="Date of Birth(dd/mm/yyyy)"
+            className="packages-input-border w-full border-none bg-inherit outline-none px-1 text-xs pb-1"
+          />
+          <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+            SEND
           </button>
         </form>
       </div>
