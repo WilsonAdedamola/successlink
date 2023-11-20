@@ -16,7 +16,7 @@ const Home = () => {
       <div
         className={
           showPackages || value
-            ? "blur-lg pointer-events-none select-none bg min-h-screen absolute w-full top-0 -z-10 px-4"
+            ? "blur-lg pointer-events-none select-none bg min-h-screen w-full px-4"
             : "bg min-h-screen px-4"
         }
       >

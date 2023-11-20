@@ -163,7 +163,7 @@ const Packages = (props) => {
             Flights tickets + Hotel bookings
           </div>
         </div>
-        <div className="flex flex-col h-full items-start pr-4 text-black mt-7 pb-6">
+        <div className="flex flex-col h-full items-start pr-4 text-black mt-7 pb-10">
           <div className="flex items-center justify-between w-full">
             <p className="before font-semibold text-lg">PACKAGES</p>
             <IoCloseSharp

@@ -25,7 +25,7 @@ const Navbar = (props) => {
       <div className="flex justify-between items-center gap-3 sm:gap-5 md:gap-16">
         <NavLink to="/" className="text-xs sm:text-sm md:text-base">Home</NavLink>
         <NavLink to="about" className="text-xs sm:text-sm md:text-base">About</NavLink>
-        <Link  className="inactive text-xs sm:text-sm md:text-base">Contact</Link>
+        <Link className="inactive text-xs sm:text-sm md:text-base">Contact</Link>
       </div>
     </nav>
   );
