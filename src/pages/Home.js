@@ -1,15 +1,21 @@
 import { useState } from "react";
 import Packages from "../components/Packages";
+import {useSelector} from 'react-redux'
+import Contact from "./Contact";
 
 const Home = () => {
   const [showPackages, setShowPackages] = useState(false);
 
+  const {value} = useSelector((state)=> state.contact)
+
+
   return (
     <>
       {showPackages && <Packages setShowPackages={setShowPackages}/>}
+      {value && <Contact />}
       <div
         className={
-          showPackages
+          showPackages || value
             ? "blur-lg pointer-events-none select-none bg min-h-screen absolute w-full top-0 -z-10 px-4"
             : "bg min-h-screen px-4"
         }
