@@ -366,7 +366,7 @@ function MobilePackages(props) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start px-2 pt-2 pb-3 screen bg-white w-max mx-auto mt-7 rounded-lg">
+    <div className="height flex flex-col items-center justify-start px-2 pt-2 pb-3 bg-white w-max mx-auto mt-7 rounded-lg fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl overflow-y-auto">
       <IoCloseSharp
         onClick={() => props.setShowPackages(false)}
         className="self-end mb-2 text-black text-3xl cursor-pointer"
@@ -390,7 +390,7 @@ function MobilePackages(props) {
         <form
           ref={form}
           onSubmit={sendEmail}
-          className="flex flex-col items-center justify-center text-xs text-[#595959] h-full w-full"
+          className="flex flex-col items-center justify- text-xs text-[#595959] h-full w-full"
         >
           <select
             onChange={(e) => {
@@ -415,7 +415,7 @@ function MobilePackages(props) {
             className={
               toCountry === ""
                 ? "canada-bg hidden flex-col items-center justify-end px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
-                : "canada-bg flex flex-col items-center justify-end px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
+                : "canada-bg flex flex-col items-center justify-end justify-self-end min-h-[60vh] px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
             }
           >
             <div className="flex items-center invisible">
@@ -423,7 +423,7 @@ function MobilePackages(props) {
                 <option value={selectedPackage}>{selectedPackage}</option>
               </select>
             </div>
-            <div className="transparent-bg flex flex-col justify-around gap-1 self-end rounded-3xl px-3 py-5 h-[60%] w-full">
+            <div className="transparent-bg flex flex-col justify-around gap-1 self-end rounded-3xl px-3 py-5 h-[35vh] w-full">
               <input
                 type="text"
                 required

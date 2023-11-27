@@ -63,6 +63,31 @@ nav a.active::after {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  min-height: calc(100vh - 6rem);
+  animation: change 20s infinite ease-in-out;
+}
+
+@keyframes change{
+  0%
+  {
+      background-image: url("./assets/homepage-bg.png");
+  }
+  25%
+  {
+      background-image: url("./assets/bg-1.jpg");
+  }
+  50%
+  {
+      background-image: url("./assets/bg-2.jpeg");
+  }
+  75%
+  {
+      background-image: url("./assets/bg-3.jpeg");
+  }
+  100%
+  {
+      background-image: url("./assets/about-bg.png");
+  }
 }
 
 .about-bg{
@@ -70,6 +95,10 @@ nav a.active::after {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+.height{
+  max-height: calc(100vh - 4rem);
+  min-height: 80vh;
 }
 
 .hide-scrollbar::-webkit-scrollbar{
