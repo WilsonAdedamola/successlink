@@ -54,7 +54,39 @@ const Packages = (props) => {
     // console.log(selectedPackage)
   };
 
-  const countries = ["Canada", "United States", "United Kingdom", "Australia", "Austria", "Belgium", "Czech Republic", "Croatia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Norway", "Poland", "Portugal", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland"]
+  const countries = [
+    "Canada",
+    "United States",
+    "United Kingdom",
+    "Australia",
+    "Austria",
+    "Belgium",
+    "Czech Republic",
+    "Croatia",
+    "Denmark",
+    "Estonia",
+    "Finland",
+    "France",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Iceland",
+    "Italy",
+    "Latvia",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Netherlands",
+    "Norway",
+    "Poland",
+    "Portugal",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Sweden",
+    "Switzerland",
+  ];
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -80,7 +112,7 @@ const Packages = (props) => {
                   setCountry("");
                   setEmail("");
                   setSending("SEND");
-                },2000);
+                }, 2000);
               }, 2000);
             }
           },
@@ -100,7 +132,12 @@ const Packages = (props) => {
   return (
     <>
       <div className="md:hidden">
-        {<MobilePackages setShowPackages={props.setShowPackages} countries={countries}/>}
+        {
+          <MobilePackages
+            setShowPackages={props.setShowPackages}
+            countries={countries}
+          />
+        }
       </div>
       <div className="hidden md:flex w-max h-[80vh] mx-auto fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-hidden shadow-xl mt-9 bg-[#F9FFFD] items-center gap-6 rounded-xl">
         <div className="bg-white flex flex-col items-center justify-center gap-4 shadow text-[#777777] h-full">
@@ -196,24 +233,22 @@ const Packages = (props) => {
                   name="toCountry"
                   className="w-full py-3 px-1 shadow mt-5 outline-none md:w-[350px] lg:w-[500px]"
                 >
-                  {
-              revealPackageForm === "irh" ? (
-                <>
-                <option value="">Select Country</option>
-                <option value="Jerusalem">Jerusalem</option>
-                <option value="Mecca">Mecca</option>
-                </>
-              ) : (
-                <>
-                <option value="">Select Country</option>
-                {
-                  countries.map((country, id)=>(
-                    <option key={id} value={country}>{country}</option>
-                  ))
-                }
-                </>
-              )
-            }
+                  {revealPackageForm === "irh" ? (
+                    <>
+                      <option value="">Select Country</option>
+                      <option value="Jerusalem">Jerusalem</option>
+                      <option value="Mecca">Mecca</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="">Select Country</option>
+                      {countries.map((country, id) => (
+                        <option key={id} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </>
+                  )}
                 </select>
                 {formLoading ? (
                   <Loading />
@@ -288,7 +323,7 @@ export default Packages;
 
 // MOBILE VIEW PACKAGES
 
-function MobilePackages({setShowPackages, countries}) {
+function MobilePackages({ setShowPackages, countries }) {
   const [mobilePackage, setMobilePackage] = useState("iva");
   const [loading, setLoading] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState("none");
@@ -363,7 +398,7 @@ function MobilePackages({setShowPackages, countries}) {
                   setCountry("");
                   setEmail("");
                   setSending("SEND");
-                },2000);
+                }, 2000);
               }, 2000);
             }
           },
@@ -419,80 +454,82 @@ function MobilePackages({setShowPackages, countries}) {
             name="toCountry"
             className="w-full py-3 px-1 text-sm shadow mt-3 outline-none"
           >
-            {
-              mobilePackage === "irh" ? (
-                <>
+            {mobilePackage === "irh" ? (
+              <>
                 <option value="">Select Country</option>
                 <option value="Jerusalem">Jerusalem</option>
                 <option value="Mecca">Mecca</option>
-                </>
-              ) : (
-                <>
+              </>
+            ) : (
+              <>
                 <option value="">Select Country</option>
-                {
-                  countries.map((country, id)=>(
-                    <option key={id} value={country}>{country}</option>
-                  ))
-                }
-                </>
-              )
-            }
+                {countries.map((country, id) => (
+                  <option key={id} value={country}>
+                    {country}
+                  </option>
+                ))}
+              </>
+            )}
           </select>
 
-         { formLoading ? (<Loading />) : (<div
-            className={
-              toCountry === ""
-                ? "canada-bg hidden flex-col items-center justify-end px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
-                : "canada-bg flex flex-col items-center justify-end justify-self-end min-h-[60vh] px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
-            }
-          >
-            <div className="flex items-center invisible">
-              <select name="selectedPackage" className="">
-                <option value={selectedPackage}>{selectedPackage}</option>
-              </select>
+          {formLoading ? (
+            <Loading />
+          ) : (
+            <div
+              className={
+                toCountry === ""
+                  ? "canada-bg hidden flex-col items-center justify-end px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
+                  : "canada-bg flex flex-col items-center justify-end justify-self-end min-h-[60vh] px-4 w-full sm:w-[400px] h-full rounded-2xl mt-5 py-4"
+              }
+            >
+              <div className="flex items-center invisible">
+                <select name="selectedPackage" className="">
+                  <option value={selectedPackage}>{selectedPackage}</option>
+                </select>
+              </div>
+              <div className="transparent-bg flex flex-col justify-around gap-1 self-end rounded-3xl px-3 py-5 h-[35vh] w-full">
+                <input
+                  type="text"
+                  required
+                  name="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Full name"
+                  className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
+                />
+                <input
+                  type="text"
+                  required
+                  name="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="Country"
+                  className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
+                />
+                <input
+                  type="email"
+                  required
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
+                />
+                <input
+                  type="text"
+                  required
+                  name="dob"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                  placeholder="Date of Birth(dd/mm/yyyy)"
+                  className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 text-xs pb-1"
+                />
+                <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
+                  {sending}
+                </button>
+              </div>
             </div>
-            <div className="transparent-bg flex flex-col justify-around gap-1 self-end rounded-3xl px-3 py-5 h-[35vh] w-full">
-              <input
-                type="text"
-                required
-                name="fullName"
-                value={fullName}
-                onChange={(e)=>setFullName(e.target.value)}
-                placeholder="Full name"
-                className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
-              />
-              <input
-                type="text"
-                required
-                name="country"
-                value={country}
-                onChange={(e)=>setCountry(e.target.value)}
-                placeholder="Country"
-                className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
-              />
-              <input
-                type="email"
-                required
-                name="email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                placeholder="Email"
-                className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 placeholder:text-xs pb-1"
-              />
-              <input
-                type="text"
-                required
-                name="dob"
-                value={dob}
-                onChange={(e)=>setDob(e.target.value)}
-                placeholder="Date of Birth(dd/mm/yyyy)"
-                className="packages-input-border w-full border-none bg-transparent outline-none px-1 placeholder:text-gray-600 text-xs pb-1"
-              />
-              <button className="self-center outline-none border-none bg-[#992288] px-6 rounded-3xl shadow py-2 text-white text-xs">
-                {sending}
-              </button>
-            </div>
-          </div>)}
+          )}
         </form>
       </div>
     </div>

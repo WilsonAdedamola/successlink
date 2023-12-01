@@ -16,6 +16,7 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setSending("SENDING...");
     setTimeout(() => {
       emailjs
         .sendForm(
@@ -27,7 +28,6 @@ const Contact = () => {
         .then(
           (result) => {
             // console.log(result.text);
-            setSending("SENDING...");
             if (result.text === "OK") {
               setTimeout(() => {
                 setSending("SENT");
@@ -47,6 +47,11 @@ const Contact = () => {
             if (error) {
               setSending("ERROR");
               setTimeout(() => {
+                setName("");
+                setNumber("");
+                setMessage("");
+                setEmail("");
+                setRFC("");
                 setSending("SEND MESSAGE");
               }, 2000);
             }
