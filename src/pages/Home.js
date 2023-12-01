@@ -17,7 +17,7 @@ const Home = () => {
         className={
           showPackages || value
             ? "blur-lg pointer-events-none select-none bg min-h-screen w-full px-4"
-            : "bg min-h-screen pb-10 md:pb-0 px-4"
+            : "bg min-h-screen pb-10 md:pb-3 px-4"
         }
       >
         <div className="2xl:max-w-[70%] 2xl:gap-9 flex flex-col justify-center pt-10 gap-4 mx-auto sm:px-7 md:flex-row md:items-center md:justify-between lg:pt-20">
