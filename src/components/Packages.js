@@ -54,9 +54,12 @@ const Packages = (props) => {
     // console.log(selectedPackage)
   };
 
+  const countries = ["Canada", "United States", "United Kingdom", "Australia", "Austria", "Belgium", "Czech Republic", "Croatia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Norway", "Poland", "Portugal", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland"]
+
   const sendEmail = (e) => {
     e.preventDefault();
     handleSetPackage();
+    setSending("SENDING...");
     setTimeout(() => {
       emailjs
         .sendForm(
@@ -68,7 +71,6 @@ const Packages = (props) => {
         .then(
           (result) => {
             // console.log(result.text);
-            setSending("SENDING...");
             if (result.text === "OK") {
               setTimeout(() => {
                 setSending("SENT");
@@ -98,7 +100,7 @@ const Packages = (props) => {
   return (
     <>
       <div className="md:hidden">
-        {<MobilePackages setShowPackages={props.setShowPackages} />}
+        {<MobilePackages setShowPackages={props.setShowPackages} countries={countries}/>}
       </div>
       <div className="hidden md:flex w-max h-[80vh] mx-auto fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-hidden shadow-xl mt-9 bg-[#F9FFFD] items-center gap-6 rounded-xl">
         <div className="bg-white flex flex-col items-center justify-center gap-4 shadow text-[#777777] h-full">
@@ -194,11 +196,24 @@ const Packages = (props) => {
                   name="toCountry"
                   className="w-full py-3 px-1 shadow mt-5 outline-none md:w-[350px] lg:w-[500px]"
                 >
-                  <option value="">Select Country</option>
-                  <option value="Canada">Canada</option>
-                  <option value="USA">USA</option>
-                  <option value="UK">UK</option>
-                  <option value="Australia">Australia</option>
+                  {
+              revealPackageForm === "irh" ? (
+                <>
+                <option value="">Select Country</option>
+                <option value="Jerusalem">Jerusalem</option>
+                <option value="Mecca">Mecca</option>
+                </>
+              ) : (
+                <>
+                <option value="">Select Country</option>
+                {
+                  countries.map((country, id)=>(
+                    <option key={id} value={country}>{country}</option>
+                  ))
+                }
+                </>
+              )
+            }
                 </select>
                 {formLoading ? (
                   <Loading />
@@ -271,9 +286,9 @@ const Packages = (props) => {
 
 export default Packages;
 
-// MOBILE PACKAGES
+// MOBILE VIEW PACKAGES
 
-function MobilePackages(props) {
+function MobilePackages({setShowPackages, countries}) {
   const [mobilePackage, setMobilePackage] = useState("iva");
   const [loading, setLoading] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState("none");
@@ -327,6 +342,7 @@ function MobilePackages(props) {
   const sendEmail = (e) => {
     e.preventDefault();
     handleSetPackage();
+    setSending("SENDING...");
     setTimeout(() => {
       emailjs
         .sendForm(
@@ -338,7 +354,6 @@ function MobilePackages(props) {
         .then(
           (result) => {
             // console.log(result.text);
-            setSending("SENDING...");
             if (result.text === "OK") {
               setTimeout(() => {
                 setSending("SENT");
@@ -368,7 +383,7 @@ function MobilePackages(props) {
   return (
     <div className="height flex flex-col items-center justify-start px-2 pt-2 pb-3 bg-white w-max mx-auto mt-7 rounded-lg fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl overflow-y-auto">
       <IoCloseSharp
-        onClick={() => props.setShowPackages(false)}
+        onClick={() => setShowPackages(false)}
         className="self-end mb-2 text-black text-3xl cursor-pointer"
       />
       <select
@@ -404,11 +419,24 @@ function MobilePackages(props) {
             name="toCountry"
             className="w-full py-3 px-1 text-sm shadow mt-3 outline-none"
           >
-            <option value="">Select Country</option>
-            <option value="Canada">Canada</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
-            <option value="Australia">Australia</option>
+            {
+              mobilePackage === "irh" ? (
+                <>
+                <option value="">Select Country</option>
+                <option value="Jerusalem">Jerusalem</option>
+                <option value="Mecca">Mecca</option>
+                </>
+              ) : (
+                <>
+                <option value="">Select Country</option>
+                {
+                  countries.map((country, id)=>(
+                    <option key={id} value={country}>{country}</option>
+                  ))
+                }
+                </>
+              )
+            }
           </select>
 
          { formLoading ? (<Loading />) : (<div

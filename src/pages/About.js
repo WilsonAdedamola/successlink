@@ -32,7 +32,7 @@ const About = () => {
 
         <div className="bg-white flex items-center justify-center px-5 py-10 lg:py-16">
           <div className="text-black flex flex-col sm:flex-row items-center justify center text-center sm:text-start gap-4 max-w-[90%] md:max-w-[70%] xl:max-w-[50%]">
-            <img src={avatar} alt="CEO image" className="lg:w-[100%]" />
+            <img src={avatar} alt="CEO" className="lg:w-[100%]" />
             <div className="flex flex-col items-center sm:items-start gap-3">
               <p className="after text-xl md:text-2xl lg:font-semibold">
                 Our C.E.O
