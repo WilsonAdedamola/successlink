@@ -95,10 +95,10 @@ const Packages = (props) => {
     setTimeout(() => {
       emailjs
         .sendForm(
-          "service_mpxcoag",
-          "template_9zvryjy",
+          "service_t4rizwf",
+          "template_u7px4f5",
           e.target,
-          "DM5vStou4nWaUUr3r"
+          "CVJS1Z4Q3Zoo6wADN"
         )
         .then(
           (result) => {
@@ -381,10 +381,10 @@ function MobilePackages({ setShowPackages, countries }) {
     setTimeout(() => {
       emailjs
         .sendForm(
-          "service_mpxcoag",
-          "template_9zvryjy",
+          "service_t4rizwf",
+          "template_u7px4f5",
           e.target,
-          "DM5vStou4nWaUUr3r"
+          "CVJS1Z4Q3Zoo6wADN"
         )
         .then(
           (result) => {

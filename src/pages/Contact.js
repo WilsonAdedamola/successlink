@@ -20,10 +20,10 @@ const Contact = () => {
     setTimeout(() => {
       emailjs
         .sendForm(
-          "service_mpxcoag",
-          "template_v8ccpu2 ",
+          "service_3aqqugj",
+          "template_mjska54",
           e.target,
-          "DM5vStou4nWaUUr3r"
+          "CVJS1Z4Q3Zoo6wADN"
         )
         .then(
           (result) => {
@@ -140,15 +140,9 @@ const Contact = () => {
               We'd love to <span className="block">Hear from you</span>
             </p>
             <p className="font-semibold text-base md:text-lg xl:text-xl">
-              info@succeslink.com
+              contact@successlinkhub.com
             </p>
           </div>
-          {/* <p>Preferred method of communication</p>
-          <input
-            type="checkbox"
-            value="4"
-            className="rounded-full block checked:text-[#992288]"
-          /> */}
         </div>
       </div>
     </section>

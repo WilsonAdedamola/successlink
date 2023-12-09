@@ -3,20 +3,9 @@ import logo from "../assets/logo.png";
 import { toTrue } from "../redux/contactSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const Navbar = (props) => {
+const Navbar = () => {
  const dispatch = useDispatch()
  const {value} = useSelector((state)=> state.contact)
-
-  // const handleContactClick = () => {
-  //   props.setShowContact(true)
-  //   console.log(props.showContact)
-  // }
-  // const handleHomeClick = () => {
-  //   props.navigate("home")
-  // }
-  // const handleAboutClick = () => {
-  //   props.navigate("about")
-  // }
 
   return (
     <nav className={ value ? "hidden justify-between items-center bg-[#992288] py-2 px-4 sm:py-3 lg:py-3 md:px-9 lg:px-20]" : "flex justify-between items-center bg-[#992288] py-2 px-4 sm:py-3 lg:py-3 md:px-9 lg:px-20]"}>
