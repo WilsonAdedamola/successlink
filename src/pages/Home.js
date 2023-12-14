@@ -1,17 +1,16 @@
 import { useState } from "react";
 import Packages from "../components/Packages";
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 import Contact from "./Contact";
 
 const Home = () => {
   const [showPackages, setShowPackages] = useState(false);
 
-  const {value} = useSelector((state)=> state.contact)
-
+  const { value } = useSelector((state) => state.contact);
 
   return (
     <>
-      {showPackages && <Packages setShowPackages={setShowPackages}/>}
+      {showPackages && <Packages setShowPackages={setShowPackages} />}
       {value && <Contact />}
       <div
         className={
@@ -30,46 +29,35 @@ const Home = () => {
             <span className="mt-4">___Andre Gide</span>
           </p>
         </div>
-        <div className="flex flex-col items-center gap-4 justify-between rounded-xl mt-7 bg-white px-5 py-5 md:px-4 md:mt-32 md:flex-row lg:max-w-[80%] mx-auto 2xl:mt-60">
-          <div className="flex flex-col items-start w-full">
-            <p className="text-[#898989] mb-1 text-xs xl:text-base">
-              International visa administration
-            </p>
-            <select className="shadow rounded w-full py-2 text-black text-sm">
-              <option value="Canada">Canada</option>
-              <option value="USA">USA</option>
-              <option value="UK">UK</option>
-              <option value="Australia">Australia</option>
+        <div className="flex flex-col items-center gap-5 md:gap-10 justify-between rounded-3xl mt-7 bg-white py-6 lg:py-8 px-4 md:mt-32 md:rounded-full md:flex-row lg:max-w-[60%] mx-auto 2xl:mt-60">
+          <div className="flex flex-col items-center font-bold w-full md:ml-10">
+            <select className="shadow w-full py-3 md:py-4 px-2 md:px-10 text-black text-sm rounded-full">
+              <option value="">View Packages</option>
+              <option value="">International visa administration</option>
+              <option value="">
+                Family/individual tourist visa for holiday
+              </option>
+              <option value="">International student admission</option>
+              <option value="">International religious holidays</option>
             </select>
           </div>
 
-          <div className="flex flex-col items-start w-full">
-            <p className="text-[#898989] mb-1 text-xs xl:text-base">
-              International student admission
-            </p>
-            <select className="shadow rounded w-full py-2 text-black text-sm">
-              <option value="USA">USA</option>
-              <option value="Canada">Canada</option>
-              <option value="UK">UK</option>
-              <option value="Australia">Australia</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col items-start w-full">
-            <p className="text-[#898989] mb-1 text-xs xl:text-base">
-              Visiting visa application support
-            </p>
-            <select className="shadow rounded w-full py-2 text-black text-sm">
-              <option value="UK">UK</option>
+          <div className="flex flex-col items-center justify-center font-bold gap-4 md:gap-0 w-full md:flex-row md:mr-10">
+            <select className="shadow md:rounded-tl-full md:rounded-bl-full w-full md:w-[50%] py-3 md:py-4 px-2 md:px-10 text-black text-sm rounded-full">
+              <option value="">View Countries</option>
               <option value="Canada">Canada</option>
               <option value="USA">USA</option>
               <option value="Australia">Australia</option>
             </select>
+            <div className="bg-[#992288] rounded-full py-2 md:py-3 w-full md:-ml-10 md:w-[50%]">
+              <button
+                onClick={() => setShowPackages(true)}
+                className="text-sm rounded-full w-full"
+              >
+                See more
+              </button>
+            </div>
           </div>
-
-          <button onClick={()=>setShowPackages(true)} className="bg-[#992288] text-xs p-2 rounded-3xl w-full max-w-[6rem] md:w-72">
-            See more
-          </button>
         </div>
       </div>
     </>

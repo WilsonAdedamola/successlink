@@ -63,7 +63,7 @@ nav a.active::after {
   background-size: cover;
   background-position: center;
   min-height: calc(100vh - 6rem);
-  animation: change 30s infinite ease-in-out;
+  animation: change 50s infinite ease-in-out;
 }
 
 @keyframes change{
