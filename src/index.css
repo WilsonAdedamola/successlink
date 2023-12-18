@@ -14,6 +14,7 @@ body {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: hidden;
 }
 
 img {
@@ -62,7 +63,7 @@ nav a.active::after {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  min-height: calc(100vh - 6rem);
+  min-height: calc(100vh - 2rem);
   animation: change 50s infinite ease-in-out;
 }
 

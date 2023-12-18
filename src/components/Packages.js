@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
 import { IoCloseSharp } from "react-icons/io5";
 import Loading from "./Loading";
 import emailjs from "@emailjs/browser";
@@ -129,6 +130,24 @@ const Packages = (props) => {
     }, 2000);
   };
 
+  // gsap animations
+  const comp = useRef(null);
+  
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      tl.from("#package", {
+        y: "-50px",
+        duration: .7,
+        opacity: 0,
+        stagger: .2
+      })
+    }, comp);
+
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       <div className="md:hidden">
@@ -140,9 +159,10 @@ const Packages = (props) => {
         }
       </div>
       <div className="hidden md:flex w-max h-[80vh] mx-auto fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-hidden shadow-xl mt-9 bg-[#F9FFFD] items-center gap-6 rounded-xl">
-        <div className="bg-white flex flex-col items-center justify-center gap-4 shadow text-[#777777] h-full">
+        <div ref={comp} className="bg-white flex flex-col items-center justify-center gap-4 shadow text-[#777777] h-full">
           <div
             onClick={() => handlePackagesSelection("iva")}
+            id="package"
             className={
               revealPackageForm === "iva"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -153,6 +173,7 @@ const Packages = (props) => {
           </div>
           <div
             onClick={() => handlePackagesSelection("fitvfh")}
+            id="package"
             className={
               revealPackageForm === "fitvfh"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -163,6 +184,7 @@ const Packages = (props) => {
           </div>
           <div
             onClick={() => handlePackagesSelection("isa")}
+            id="package"
             className={
               revealPackageForm === "isa"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -173,6 +195,7 @@ const Packages = (props) => {
           </div>
           <div
             onClick={() => handlePackagesSelection("irh")}
+            id="package"
             className={
               revealPackageForm === "irh"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -183,6 +206,7 @@ const Packages = (props) => {
           </div>
           <div
             onClick={() => handlePackagesSelection("vvas")}
+            id="package"
             className={
               revealPackageForm === "vvas"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -193,6 +217,7 @@ const Packages = (props) => {
           </div>
           <div
             onClick={() => handlePackagesSelection("fthb")}
+            id="package"
             className={
               revealPackageForm === "fthb"
                 ? "packages-border px-4 font-semibold w-full py-4 cursor-pointer"
@@ -416,7 +441,7 @@ function MobilePackages({ setShowPackages, countries }) {
   };
 
   return (
-    <div className="height flex flex-col items-center justify-start px-2 pt-2 pb-3 bg-white w-max mx-auto mt-7 rounded-lg fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl overflow-y-auto">
+    <div className="height flex flex-col items-center justify-start px-2 pt-2 pb-3 bg-white w-max mx-auto mt-7 rounded-lg fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl overflow-y-hidden">
       <IoCloseSharp
         onClick={() => setShowPackages(false)}
         className="self-end mb-2 text-black text-3xl cursor-pointer"

@@ -1,8 +1,9 @@
 import { toFalse } from "../redux/contactSlice";
 import { useDispatch } from "react-redux";
 import { IoCloseSharp } from "react-icons/io5";
-import { useRef, useState } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 import emailjs from "@emailjs/browser";
+import gsap from "gsap";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -60,8 +61,30 @@ const Contact = () => {
     }, 2000);
   };
 
+   // gsap animations
+   const comp = useRef(null);
+  
+   useLayoutEffect(() => {
+     let ctx = gsap.context(() => {
+       const tl = gsap.timeline();
+       tl.from("#input", {
+         y: "-50px",
+         duration: .7,
+         opacity: 0,
+         stagger: .2
+       }).from("#contact", {
+        x: "-100%",
+        duration: 1,
+        opacity: 0
+      })
+     }, comp);
+ 
+ 
+     return () => ctx.revert();
+   }, []);
+
   return (
-    <section className="flex flex-col text-black w-[90%] lg:w-[80%] h-[80vh] mx-auto fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl mt-9 bg-[#aaadac] items-center gap-6 rounded-3xl">
+    <section ref={comp} className="flex flex-col text-black w-[90%] lg:w-[80%] h-[80vh] mx-auto fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl mt-9 bg-[#aaadac] items-center gap-6 rounded-3xl">
       <div className="flex items-center justify-between h-full w-full">
         <div className="flex flex-col items-start justify-center gap-3 bg-white h-full w-full md:w-[60%] p-5 md:py-16 rounded-3xl md:rounded-tr-none md:rounded-br-none md:rounded-bl-3xl md:rounded-tl-3xl shadow-md">
           <div className="flex justify-end justify-self-start h-min w-full md:hidden">
@@ -79,6 +102,7 @@ const Contact = () => {
             className="w-full md:w-[70%] mx-auto font-semibold md:text-lg xl:text-xl"
           >
             <input
+            id="input"
               type="text"
               placeholder="Name"
               value={name}
@@ -88,6 +112,7 @@ const Contact = () => {
               className="contact-input-border outline-none w-full px-1 py-2 placeholder:text-black"
             />
             <input
+            id="input"
               type="email"
               placeholder="Email"
               value={email}
@@ -97,6 +122,7 @@ const Contact = () => {
               className="contact-input-border outline-none my-4 w-full px-1 py-2 placeholder:text-black"
             />
             <input
+            id="input"
               type="text"
               placeholder="Reason for contact"
               value={RFC}
@@ -106,6 +132,7 @@ const Contact = () => {
               className="contact-input-border outline-none w-full px-1 py-2 placeholder:text-black"
             />
             <input
+            id="input"
               type="text"
               placeholder="Phone No."
               value={number}
@@ -115,6 +142,7 @@ const Contact = () => {
               className="contact-input-border outline-none my-4 w-full px-1 py-2 placeholder:text-black"
             />
             <input
+            id="input"
               type="text"
               placeholder="Message"
               value={message}
@@ -123,19 +151,19 @@ const Contact = () => {
               name="message"
               className="contact-input-border outline-none w-full px-1 py-2 placeholder:text-black"
             />
-            <button className="bg-[#992288] px-4 py-2 md:px-6 rounded-3xl mt-5 md:mt-7 xl:mt-10 mx-auto text-white text-xs xl:text-base">
+            <button id="input" className="bg-[#992288] px-4 py-2 md:px-6 rounded-3xl mt-5 md:mt-7 xl:mt-10 mx-auto text-white text-xs xl:text-base">
               {sending}
             </button>
           </form>
         </div>
-        <div className="hidden md:flex flex-col justify-center items-center w-[40%] h-full px-8 pt-5">
+        <div className="hidden md:flex flex-col overflow-hidden justify-center items-center w-[40%] h-full px-8 pt-5">
           <div className="flex justify-end justify-self-start h-min w-full">
             <IoCloseSharp
               onClick={() => dispatch(toFalse())}
               className="text-black md:text-3xl xl:text-4xl cursor-pointer"
             />
           </div>
-          <div className="w-full h-full flex flex-col gap-4 justify-center">
+          <div id="contact" className="w-full h-full flex flex-col gap-4 justify-center">
             <p className="text-xl font-semibold md:text-2xl xl:text-5xl">
               We'd love to <span className="block">Hear from you</span>
             </p>
